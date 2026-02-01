@@ -61,35 +61,42 @@ $(document).ready(function() {
     const socket = io();
 
     // REGISTER BUTTON
+ $(document).ready(function() {
+    // USE YOUR NGROK URL HERE
+    const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev");
+
+    console.log("Script loaded, waiting for click...");
+
     $('#btn-register').on('click', function() {
+        console.log("Register button clicked!");
         const data = {
             username: $('#reg-username').val(),
             mobile: $('#reg-mobile').val(),
             password: $('#reg-password').val()
         };
-
-        if (!data.username || !data.mobile || !data.password) {
-            alert("Please fill in all fields!");
-            return;
-        }
-
-        console.log("Attempting to register:", data.username);
         socket.emit('register', data);
     });
 
-    // LOGIN BUTTON 
-    // Note: Since your HTML only has one set of inputs, 
-    // we use the same IDs for login.
     $('#btn-login').on('click', function() {
+        console.log("Login button clicked!");
         const data = {
             username: $('#reg-username').val(),
             password: $('#reg-password').val()
         };
-
-        console.log("Attempting login for:", data.username);
         socket.emit('login', data);
     });
 
+    socket.on('auth-success', (data) => {
+        alert("Welcome " + data.username);
+        $('#auth-screen').hide();
+        $('#my-username').text(data.username);
+        $('#balance').text('$' + data.balance);
+    });
+
+    socket.on('auth-error', (msg) => {
+        alert(msg);
+    });
+});
     // SUCCESS/ERROR LISTENERS
     socket.on('auth-success', function(user) {
         console.log("Auth Success!", user);
