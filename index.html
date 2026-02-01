@@ -8,17 +8,7 @@
 </head>
 <body>
 
-<div id="app-container">
-    <aside class="sidebar">
-        <h3>Online Elite</h3>
-        <div id="online-users" class="user-list">
-            <div class="user-card">
-                <img src="https://via.placeholder.com/40" class="pfp">
-                <div class="user-info">
-                    <span class="username">Magnus_99</span>
-                    <span class="rank-badge rank-grandmaster">GM</span>
-                </div>
-                <section id="auth-screen" class="overlay">
+<section id="auth-screen" class="overlay">
     <div class="auth-card">
         <h2>Enter the Arena</h2>
         <input type="text" id="reg-username" placeholder="Username">
@@ -29,6 +19,17 @@
         <button id="btn-login">Login with Username</button>
     </div>
 </section>
+
+<div id="app-container">
+    <aside class="sidebar">
+        <h3>Online Elite</h3>
+        <div id="online-users" class="user-list">
+            <div class="user-card">
+                <img src="https://via.placeholder.com/40" class="pfp" alt="pfp">
+                <div class="user-info">
+                    <span class="username">Magnus_99</span>
+                    <span class="rank-badge rank-grandmaster">GM</span>
+                </div>
             </div>
         </div>
     </aside>
@@ -39,11 +40,11 @@
             <h2 class="logo">ELITE STAKES</h2>
             <div class="current-user">
                 <span id="my-username">Michael</span>
-                <img src="https://via.placeholder.com/40" class="pfp">
+                <img src="https://via.placeholder.com/40" class="pfp" alt="pfp">
             </div>
         </header>
 
-        <section id="lobby" class="overlay">
+        <section id="lobby" class="overlay" style="display:none;">
             <div class="lobby-card">
                 <h3>Select Your Stake</h3>
                 <div class="bet-grid">
@@ -52,37 +53,34 @@
                     <button class="bet-btn" data-amt="100">$100</button>
                     <button class="bet-btn elite" data-amt="500">$500</button>
                 </div>
-                <p>Finding an opponent with similar rank...</p>
+                <p>Finding an opponent...</p>
                 <div class="loader"></div>
             </div>
         </section>
 
         <div id="board-layout">
             <div id="opponent-stat" class="player-bar">
-                <img src="https://via.placeholder.com/50" class="pfp">
+                <img src="https://via.placeholder.com/50" class="pfp" alt="pfp">
                 <div><span id="opp-name">Waiting...</span> <span class="rank-badge">Diamond</span></div>
                 <div class="timer">10:00</div>
             </div>
 
-            <div id="myBoard" style="width: 500px"></div>
+            <div id="myBoard" style="width: 500px; margin: auto;"></div>
 
             <div id="my-stat" class="player-bar">
-                <img src="https://via.placeholder.com/50" class="pfp">
-                <div><span>You (Michael)</span> <span class="rank-badge">Platinum</span></div>
+                <img src="https://via.placeholder.com/50" class="pfp" alt="pfp">
+                <div><span>You</span> <span class="rank-badge">Platinum</span></div>
                 <div class="timer">10:00</div>
             </div>
         </div>
     </main>
 </div>
 
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-
 <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
-
 <script src="script.js"></script>
+
 </body>
 </html>
