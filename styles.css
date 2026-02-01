@@ -1,0 +1,38 @@
+:root {
+    --gold: #d4af37;
+    --dark-bg: #121212;
+    --panel-bg: #1e1e1e;
+    --text-white: #e0e0e0;
+}
+
+body {
+    background: var(--dark-bg);
+    color: var(--text-white);
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+#app-container { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+
+/* Sidebar */
+.sidebar { background: var(--panel-bg); border-right: 1px solid #333; padding: 15px; }
+.user-card { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding: 8px; border-radius: 5px; background: #252525; }
+.pfp { border-radius: 50%; border: 2px solid var(--gold); }
+
+/* Rank Badges */
+.rank-badge { font-size: 10px; padding: 2px 6px; border-radius: 3px; background: #444; color: white; }
+.rank-grandmaster { background: linear-gradient(45deg, #ff4e50, #f9d423); }
+
+/* Game Area */
+.game-area { display: flex; flex-direction: column; align-items: center; }
+.top-nav { width: 100%; display: flex; justify-content: space-between; padding: 20px 40px; box-sizing: border-box; background: #000; }
+
+.player-bar { width: 500px; display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
+.timer { font-size: 1.5rem; font-family: monospace; color: var(--gold); }
+
+/* Lobby Overlay */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: flex; justify-content: center; align-items: center; }
+.lobby-card { background: var(--panel-bg); padding: 40px; border: 2px solid var(--gold); border-radius: 15px; text-align: center; }
+.bet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+.bet-btn { padding: 15px; font-size: 1.2rem; border: none; background: #333; color: white; cursor: pointer; border-radius: 8px; }
+.bet-btn:hover { background: var(--gold); color: black; }
