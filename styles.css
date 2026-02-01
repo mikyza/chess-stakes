@@ -36,3 +36,108 @@ body {
 .bet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
 .bet-btn { padding: 15px; font-size: 1.2rem; border: none; background: #333; color: white; cursor: pointer; border-radius: 8px; }
 .bet-btn:hover { background: var(--gold); color: black; }
+/* Full-screen Background Blur */
+#auth-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(22, 27, 34, 0.8) 0%, rgba(10, 14, 20, 1) 100%);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* The Login Card */
+.auth-card {
+    background: linear-gradient(145deg, #161b22, #0d1117);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(187, 153, 63, 0.3); /* Faint Gold Border */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 15px rgba(187, 153, 63, 0.1);
+    width: 380px;
+    text-align: center;
+}
+
+.auth-card h2 {
+    color: #fcf6ba; /* Soft Gold */
+    font-family: 'Georgia', serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Casino Inputs */
+.auth-card input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    background: #05070a;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.auth-card input:focus {
+    outline: none;
+    border-color: #fcf6ba;
+    box-shadow: 0 0 8px rgba(252, 246, 186, 0.3);
+}
+
+/* Gold Action Buttons */
+#btn-register, #btn-login {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s transform;
+}
+
+#btn-register {
+    background: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728);
+    color: #1a1a1a;
+    box-shadow: 0 4px 15px rgba(187, 153, 63, 0.4);
+}
+
+#btn-login {
+    background: transparent;
+    color: #fcf6ba;
+    border: 1px solid #bf953f;
+}
+
+#btn-register:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+#btn-login:hover {
+    background: rgba(191, 149, 63, 0.1);
+}
+
+.auth-card hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #30363d, transparent);
+    margin: 25px 0;
+}
+.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
