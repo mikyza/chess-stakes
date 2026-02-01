@@ -1,21 +1,20 @@
 // DELETE any other 'const socket' lines. Use only this:
 // Remove ALL other socket variables and use this
+// This configuration is specific for bypassing ngrok's polling issues
 const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
-    transports: ["websocket"], 
+    transports: ["websocket"], // Force websocket only to stop 404s
     upgrade: false,
-    reconnection: true,
-    reconnectionAttempts: 5
+    extraHeaders: {
+        "ngrok-skip-browser-warning": "true" // This tries to bypass that blue screen
+    }
 });
 
 socket.on('connect', () => {
-    console.log("✅ TUNNEL OPEN: WebSocket connected to Lenovo G50!");
+    console.log("✅ SUCCESS! Connected to Lenovo G50 MariaDB");
 });
 
-socket.on('connect_error', (error) => {
-    console.error("❌ CONNECTION ERROR:", error.message);
-});
 socket.on('connect_error', (err) => {
-    console.log("❌ Still can't reach the server. Check if terminal is running node server.js");
+    console.log("❌ Connection failed. Did you click 'Visit Site' on the ngrok tab?", err.message);
 });
 var board = null;
 var game = new Chess();
@@ -65,11 +64,24 @@ function updateStatus () {
     }
 }
 $(document).ready(function() {
-    const socket = io();
+   const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
+       transports: ["websocket"],
+       upgrade: false,
+       extraHeaders: {
+           "ngrok-skip-browser-warning": "true"
+       }
+   });
 
     // REGISTER BUTTON
  $(document).ready(function() {
     // USE YOUR NGROK URL HERE
+   const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
+       transports: ["websocket"],
+       upgrade: false,
+       extraHeaders: {
+           "ngrok-skip-browser-warning": "true"
+       }
+   });
    
 
     console.log("Script loaded, waiting for click...");
