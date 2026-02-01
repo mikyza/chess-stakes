@@ -1,11 +1,18 @@
 // DELETE any other 'const socket' lines. Use only this:
+// Remove ALL other socket variables and use this
 const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
-    transports: ['websocket'], // Forces a stable connection
-    upgrade: false
+    transports: ["websocket"], 
+    upgrade: false,
+    reconnection: true,
+    reconnectionAttempts: 5
 });
 
 socket.on('connect', () => {
-    console.log("✅ SUCCESS: Tunnel connected to MariaDB!");
+    console.log("✅ TUNNEL OPEN: WebSocket connected to Lenovo G50!");
+});
+
+socket.on('connect_error', (error) => {
+    console.error("❌ CONNECTION ERROR:", error.message);
 });
 socket.on('connect_error', (err) => {
     console.log("❌ Still can't reach the server. Check if terminal is running node server.js");
@@ -63,7 +70,7 @@ $(document).ready(function() {
     // REGISTER BUTTON
  $(document).ready(function() {
     // USE YOUR NGROK URL HERE
-    const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev");
+   
 
     console.log("Script loaded, waiting for click...");
 
