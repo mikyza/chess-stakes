@@ -92,7 +92,18 @@ socket.on('start-match', (data) => {
     $('#opp-name').text(opp.username);
     console.log(`Match started! You are ${myColor === 'w' ? 'White' : 'Black'}`);
 });
+socket.on('connect', () => {
+    console.log("Connected to Server!");
+    // Change the "Michael" text to "Michael (ONLINE)"
+    document.getElementById('my-username').innerText = "Michael (CONNECTED)";
+    document.getElementById('my-username').style.color = "lime";
+});
 
+socket.on('connect_error', (err) => {
+    console.log("Connection Failed: ", err.message);
+    document.getElementById('my-username').innerText = "OFFLINE";
+    document.getElementById('my-username').style.color = "red";
+});
 // LISTEN: Opponent Move
 socket.on('move-received', (move) => {
     game.move(move);
