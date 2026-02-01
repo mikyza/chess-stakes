@@ -1,5 +1,9 @@
 // 1. INITIALIZE CONSTANTS
-const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev");
+const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
+    extraHeaders: {
+        "ngrok-skip-browser-warning": "true"
+    }
+});
 var board = null;
 var game = new Chess();
 let currentRoom = null;
