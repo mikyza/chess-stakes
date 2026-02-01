@@ -81,16 +81,18 @@ $('.bet-btn').on('click', function() {
 
 // LISTEN: Match Found
 socket.on('start-match', (data) => {
-    $('#lobby').fadeOut(); // Hide the betting screen
+    console.log("Match data received:", data);
+    $('#lobby').fadeOut(); 
     
-    // Assign color based on socket ID
-    myColor = (socket.id === data.white.id) ? 'w' : 'b';
+    // IMPORTANT: Update the currentRoom to the one the server sent
+    currentRoom = data.room; 
+    
+    // Assign color based on the data sent by server
+    myColor = data.myColor; 
     board.orientation(myColor === 'w' ? 'white' : 'black');
     
-    // Update Opponent Info
     const opp = (myColor === 'w') ? data.black : data.white;
     $('#opp-name').text(opp.username);
-    console.log(`Match started! You are ${myColor === 'w' ? 'White' : 'Black'}`);
 });
 socket.on('connect', () => {
     console.log("Connected to Server!");
