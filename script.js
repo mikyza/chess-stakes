@@ -51,7 +51,54 @@ function updateStatus () {
         alert("Draw! Stake refunded.");
     }
 }
+$(document).ready(function() {
+    const socket = io();
 
+    // REGISTER BUTTON
+    $('#btn-register').on('click', function() {
+        const data = {
+            username: $('#reg-username').val(),
+            mobile: $('#reg-mobile').val(),
+            password: $('#reg-password').val()
+        };
+
+        if (!data.username || !data.mobile || !data.password) {
+            alert("Please fill in all fields!");
+            return;
+        }
+
+        console.log("Attempting to register:", data.username);
+        socket.emit('register', data);
+    });
+
+    // LOGIN BUTTON 
+    // Note: Since your HTML only has one set of inputs, 
+    // we use the same IDs for login.
+    $('#btn-login').on('click', function() {
+        const data = {
+            username: $('#reg-username').val(),
+            password: $('#reg-password').val()
+        };
+
+        console.log("Attempting login for:", data.username);
+        socket.emit('login', data);
+    });
+
+    // SUCCESS/ERROR LISTENERS
+    socket.on('auth-success', function(user) {
+        console.log("Auth Success!", user);
+        $('#auth-screen').fadeOut(); // Hide the login screen
+        $('#balance').text('$' + user.balance);
+        $('#my-username').text(user.username);
+    });
+
+    socket.on('auth-error', function(message) {
+        alert(message);
+        // Add the "shake" class we talked about for effect
+        $('.auth-card').addClass('shake');
+        setTimeout(() => $('.auth-card').removeClass('shake'), 500);
+    });
+});
 // 3. BOARD CONFIGURATION
 var config = {
     draggable: true,
