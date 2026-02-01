@@ -1,8 +1,14 @@
-// 1. INITIALIZE CONSTANTS
+// Point this to your active ngrok tunnel
 const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
-    extraHeaders: {
-        "ngrok-skip-browser-warning": "true"
-    }
+    transports: ['websocket', 'polling'] // Helps bypass some ngrok header issues
+});
+
+socket.on('connect', () => {
+    console.log("✅ Connected to MariaDB via Lorenzo Tunnel!");
+});
+
+socket.on('connect_error', (err) => {
+    console.log("❌ Still can't reach the server. Check if terminal is running node server.js");
 });
 var board = null;
 var game = new Chess();
