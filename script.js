@@ -1,12 +1,12 @@
-// Point this to your active ngrok tunnel
+// DELETE any other 'const socket' lines. Use only this:
 const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
-    transports: ['websocket', 'polling'] // Helps bypass some ngrok header issues
+    transports: ['websocket'], // Forces a stable connection
+    upgrade: false
 });
 
 socket.on('connect', () => {
-    console.log("✅ Connected to MariaDB via Lorenzo Tunnel!");
+    console.log("✅ SUCCESS: Tunnel connected to MariaDB!");
 });
-
 socket.on('connect_error', (err) => {
     console.log("❌ Still can't reach the server. Check if terminal is running node server.js");
 });
