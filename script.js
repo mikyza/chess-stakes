@@ -67,9 +67,9 @@ function updateStatus () {
 $(document).ready(function() {
     console.log("✅ Script loaded, waiting for click...");
 
-    // REGISTER BUTTON
-    $('#btn-register').off('click').on('click', function() {
-        console.log("Register button clicked!");
+    // 1. REGISTER BUTTON
+    $('#btn-register').on('click', function() {
+        console.log("Registering user...");
         const data = {
             username: $('#reg-username').val(),
             mobile: $('#reg-mobile').val(),
@@ -78,35 +78,36 @@ $(document).ready(function() {
         socket.emit('register', data);
     });
 
-    // LOGIN BUTTON
-    $('#btn-login').off('click').on('click', function() {
-        console.log("Login button clicked!");
-        const data = {
-            username: $('#reg-username').val(),
-            password: $('#reg-password').val()
-        };
-        socket.emit('login', data);
+    // 2. COMBINED LOGIN/TOGGLE BUTTON
+    $('#btn-login').on('click', function() {
+        // Check if we are currently looking at the Register view
+        // Note: Ensure your HTML has <div id="mobile-field"> around the mobile input
+        if ($('#mobile-field').is(':visible')) {
+            console.log("Switching UI to Login mode...");
+            $('#mobile-field').hide(); 
+            $('.auth-card h2').text('Login to Arena'); 
+            $('#btn-register').hide(); 
+            $(this).text('Sign In Now'); 
+        } else {
+            console.log("Attempting Login emit...");
+            const data = {
+                username: $('#reg-username').val(),
+                password: $('#reg-password').val()
+            };
+            socket.emit('login', data);
+        }
     });
 
-    // SUCCESS LISTENER
-    socket.on('auth-success', function(user) {
-        console.log("Auth Success!", user);
+    // 3. LISTENERS (Keep these as they are)
+    socket.on('auth-success', (user) => {
         alert("Welcome " + user.username);
-        
-        // UI Updates
         $('#auth-screen').fadeOut(); 
         $('#my-username').text(user.username).css("color", "lime");
         $('#balance').text('$' + (user.balance || 500));
     });
 
-    // ERROR LISTENER
-    socket.on('auth-error', function(message) {
-        console.error("Auth Error:", message);
-        alert(message);
-        
-        // Visual feedback
-        $('.auth-card').addClass('shake');
-        setTimeout(() => $('.auth-card').removeClass('shake'), 500);
+    socket.on('auth-error', (msg) => {
+        alert(msg);
     });
 });
 // 3. BOARD CONFIGURATION
@@ -172,20 +173,4 @@ socket.on('move-received', (move) => {
     game.move(move);
     board.position(game.fen());
     updateStatus();
-});
-$('#btn-login').on('click', function() {
-    // If the mobile field is visible, they are currently on the "Register" view
-    if ($('#mobile-field').is(':visible')) {
-        $('#mobile-field').hide(); // Hide mobile input
-        $('h2').text('Login to Arena'); // Change title
-        $('#btn-register').hide(); // Hide register button
-        $(this).text('Sign In Now'); // Change login button text
-    } else {
-        // This is where the ACTUAL login emit happens
-        const data = {
-            username: $('#reg-username').val(),
-            password: $('#reg-password').val()
-        };
-        socket.emit('login', data);
-    }
 });
