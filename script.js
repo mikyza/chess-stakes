@@ -63,30 +63,12 @@ function updateStatus () {
         alert("Draw! Stake refunded.");
     }
 }
+
 $(document).ready(function() {
-   const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
-       transports: ["websocket"],
-       upgrade: false,
-       extraHeaders: {
-           "ngrok-skip-browser-warning": "true"
-       }
-   });
+    console.log("✅ Script loaded, waiting for click...");
 
     // REGISTER BUTTON
- $(document).ready(function() {
-    // USE YOUR NGROK URL HERE
-   const socket = io("https://linwood-feudalistic-lorenzo.ngrok-free.dev", {
-       transports: ["websocket"],
-       upgrade: false,
-       extraHeaders: {
-           "ngrok-skip-browser-warning": "true"
-       }
-   });
-   
-
-    console.log("Script loaded, waiting for click...");
-
-    $('#btn-register').on('click', function() {
+    $('#btn-register').off('click').on('click', function() {
         console.log("Register button clicked!");
         const data = {
             username: $('#reg-username').val(),
@@ -96,7 +78,8 @@ $(document).ready(function() {
         socket.emit('register', data);
     });
 
-    $('#btn-login').on('click', function() {
+    // LOGIN BUTTON
+    $('#btn-login').off('click').on('click', function() {
         console.log("Login button clicked!");
         const data = {
             username: $('#reg-username').val(),
@@ -105,28 +88,23 @@ $(document).ready(function() {
         socket.emit('login', data);
     });
 
-    socket.on('auth-success', (data) => {
-        alert("Welcome " + data.username);
-        $('#auth-screen').hide();
-        $('#my-username').text(data.username);
-        $('#balance').text('$' + data.balance);
-    });
-
-    socket.on('auth-error', (msg) => {
-        alert(msg);
-    });
-});
-    // SUCCESS/ERROR LISTENERS
+    // SUCCESS LISTENER
     socket.on('auth-success', function(user) {
         console.log("Auth Success!", user);
-        $('#auth-screen').fadeOut(); // Hide the login screen
-        $('#balance').text('$' + user.balance);
-        $('#my-username').text(user.username);
+        alert("Welcome " + user.username);
+        
+        // UI Updates
+        $('#auth-screen').fadeOut(); 
+        $('#my-username').text(user.username).css("color", "lime");
+        $('#balance').text('$' + (user.balance || 500));
     });
 
+    // ERROR LISTENER
     socket.on('auth-error', function(message) {
+        console.error("Auth Error:", message);
         alert(message);
-        // Add the "shake" class we talked about for effect
+        
+        // Visual feedback
         $('.auth-card').addClass('shake');
         setTimeout(() => $('.auth-card').removeClass('shake'), 500);
     });
@@ -194,4 +172,20 @@ socket.on('move-received', (move) => {
     game.move(move);
     board.position(game.fen());
     updateStatus();
+});
+$('#btn-login').on('click', function() {
+    // If the mobile field is visible, they are currently on the "Register" view
+    if ($('#mobile-field').is(':visible')) {
+        $('#mobile-field').hide(); // Hide mobile input
+        $('h2').text('Login to Arena'); // Change title
+        $('#btn-register').hide(); // Hide register button
+        $(this).text('Sign In Now'); // Change login button text
+    } else {
+        // This is where the ACTUAL login emit happens
+        const data = {
+            username: $('#reg-username').val(),
+            password: $('#reg-password').val()
+        };
+        socket.emit('login', data);
+    }
 });
